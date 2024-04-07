@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,9 +28,15 @@ class EarthquakeAdapter(private val onItemClick: (Feature) -> Unit) :
         private val timeTextView: TextView = itemView.findViewById(R.id.timeTextView)
         private val coordinatesTextView: TextView = itemView.findViewById(R.id.coordinatesTextView)
 
+        @SuppressLint("ResourceAsColor")
         fun bind(earthquake: Feature) {
             placeTextView.text = earthquake.properties.place
             magnitudeTextView.text = "Magnitude: ${earthquake.properties.mag}"
+            if ((earthquake.properties.mag ?: 0) >= (7.5 as Nothing)){
+                magnitudeTextView.setTextColor(R.color.purple_500)
+            } else {
+                magnitudeTextView.setTextColor(R.color.black)
+            }
             timeTextView.text = "Time: ${earthquake.properties.time}"
             val coordinates = earthquake.geometry.coordinates
             coordinatesTextView.text = "Coordinates: (${coordinates[1]}, ${coordinates[0]})"
